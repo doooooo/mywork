@@ -1,0 +1,42 @@
+form{
+	padding: 50px 170px 50px 50px; 
+	margin: 10px 0px 0px 0px;
+}
+
+h4{
+	padding: 10px 10px 20px 10px;
+}
+
+h2{
+	margin: 10px 10px 10px 50px;
+	/*text-align: center;*/
+}
+
+.card{
+  /*width: 24%;
+  height: 370px;
+  margin: 30px auto;*/
+  border-style: ridge;
+}
+.scrollable{
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+.inner-report{
+	margin-top: 0px;
+	overflow-y: auto;
+  	max-height: 500px;
+}
+
+.params{
+	width:850px;
+	display: block;
+	float: left;
+}
+
+form label.required:after
+{
+    color: red;
+    content: " *";
+}

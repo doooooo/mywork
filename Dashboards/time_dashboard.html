@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+<link rel="stylesheet" href="bootstrap/bootstrap-grid.min.css">
+<link rel="stylesheet" href="style.css">
+<!-- AppWorks -->
+      <script src="/cordys/thirdparty/jquery/jquery.js"></script>
+	<script src="/cordys/thirdparty/jquery/jquery.mobile.min.js"></script>
+	<script src="/cordys/html5/cordys.html5sdk.js" type="text/javascript"></script>
+<!-- AppWorks END -->
+<script type="text/javascript" language="JavaScript" src="jsapi.js"></script> 
+<title>Time Dashboard</title>
+</head>
+<body onload="init()">
+<div class="container-fluid">
+		<div class="row">
+            <div class="col-md-12">
+            	<h2>Time Impact Reports</h2>
+            </div>
+        </div> 
+        <div class="row">
+            <div class="col-auto card scrollable">
+            	<div class="params">
+            		<form>
+            			<h4>Parameters</h4>
+					  <div class="form-group">
+					    <label for="months" class='control-label required'>Month(s)</label>
+					    <select multiple class="form-control" id="months" required="required">
+					      <option value="1">January</option>
+					      <option value="2">February</option>
+					      <option value="3">March</option>
+					      <option value="4">April</option>
+					      <option value="5">May</option>
+					      <option value="6">June</option>
+					      <option value="7">July</option>
+					      <option value="8">August</option>
+					      <option value="9">September</option>
+					      <option value="10">October</option>
+					      <option value="11">November</option>
+					      <option value="12">December</option>
+					    </select>
+					  </div>
+					  <div class="form-group">
+					    <label for="years" class='control-label required'>Year(s)</label>
+					    <select multiple class="form-control" id="years" required="required">
+					      <option>2020</option>
+					      <option>2021</option>
+					      <option>2022</option>
+					      <option>2023</option>
+					      <option>2024</option>
+					      <option>2025</option>
+					      <option>2026</option>
+					      <option>2027</option>
+					      <option>2028</option>
+					      <option>2029</option>
+					      <option>2030</option>
+					    </select>
+					  </div>
+					  <div class="form-group">
+					    <label for="ldc">LDC</label>
+					    <select class="form-control" id="ldc">
+					      <option style="display:none">
+					    </select>
+					  </div>
+					  <div class="form-group">
+					    <label for="gov">Governorate</label>
+					    <select class="form-control" id="gov">
+					      <option style="display:none">	
+					    </select>
+					  </div>
+					  <div class="form-group">
+					    <label for="criteria">Criteria</label>
+					    <select class="form-control" id="criteria">
+					      <option style="display:none">
+					    </select>
+					  </div>
+					  <button class="btn btn-primary" onclick="return executeParams()">Submit</button>
+					</form>
+				</div>
+            </div>
+            <div class="col-auto card scrollable">
+            	<div id="statistical"></div> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-auto  card scrollable">
+            	<div id="company"></div> 
+            </div>
+            <div class="col-auto card scrollable">
+            	<div id="contract"></div> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-auto card scrollable">
+            	<!-- div id="processParams" style="border-width: 1px; border-style: solid;">process params form</div-->
+            	<div>
+            	<form class="form-inline">
+            	<div class="form-row">
+				  <div class="col-auto">
+				    <b>From:</b> <label for="from" class="sr-only">From</label>
+				    <input type="date" class="form-control" id="from" placeholder="From">
+				  </div>
+				  <div class="col-auto">
+				    <label for="to" class="sr-only">To</label>
+				    <b>To:</b> <input type="date" class="form-control" id="to" placeholder="To">
+				  </div>
+				  <div class="col-auto">
+				  	<button type="submit" class="btn btn-primary" onclick="return executeDetailsParams()">Submit</button>
+				  </div>
+				</div>
+				</form>
+				</div>
+            	<hr size="1">
+            	<div id="process" ></div>  
+            </div>
+            <div class="col-auto card scrollable">
+            	<div id="complaint"></div> 
+            </div>
+        </div>
+</div>
+<!-- script src="bootstrap/jquery-3.6.0.min.js"></script-->
+<script src="bootstrap/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" language="JavaScript">   
+	var params={};
+	var details_params={};
+	var ldcElement=document.getElementById('ldc');
+	var govElement=document.getElementById('gov');
+	var criteriaElement=document.getElementById('criteria');
+	
+	//configure url ldc parameter
+	var ldc_param;
+	const queryString = window.location.search;
+	const urlParams = new URLSearchParams(queryString);
+	if (urlParams.has('ldc')) {
+		ldc_param = urlParams.get('ldc')
+		// console.log(LDC);
+	}
+	
+	
+	//load ldc dropdown
+	$.cordys.ajax({ method: "findAllLDCs", namespace:
+                        "http://schemas/BASSEGASHill/LDC/operations"
+                        //dataType: 'json'
+                        }).done(function(response) { // Show the employees on the screen
+                        
+                        console.log(response);
+                        
+                       data=response;
+                        
+                        $.each(data, function(k, v) {
+                        //for (k in data) {
+                            console.log(v);
+                            if(k.indexOf("LDC")>-1)
+                                {
+                            		var opt = document.createElement("option");
+                            	   opt.value= v.LDC_Code;
+                            	   opt.innerHTML = v.LDC_Name; // whatever property it has
+
+                            	   // then append it to the select element
+                            	   ldcElement.appendChild(opt);
+                            	   
+                                }
+                          });
+                        
+                        if(ldc_param){
+                        	ldcElement.value=ldc_param;
+                        }
+                        
+                        }).fail(function(error) { alert("Error in getting options");console.log(error); });
+	
+	
+	//load gov dropdown
+	$.cordys.ajax({ method: "findAllGovernorates", namespace:
+                        "http://schemas/BASSEGASHill/Governorate/operations"
+                        //dataType: 'json'
+                        }).done(function(response) { // Show the employees on the screen
+                        
+                        console.log(response);
+                        
+                       data=response;
+                        
+                        $.each(data, function(k, v) {
+                        //for (k in data) {
+                            console.log(v);
+                            if(k.indexOf("Governorate")>-1)
+                                {
+                            		var opt = document.createElement("option");
+                            	   opt.value= v.Code;
+                            	   opt.innerHTML = v.Governorate_Name; // whatever property it has
+
+                            	   // then append it to the select element
+                            	   govElement.appendChild(opt);
+                            	   
+                                }
+                          });
+                        
+                        }).fail(function(error) { console.log(error); });
+	
+	//load criteria dropdown
+	$.cordys.ajax({ method: "findAllCriteria", namespace:
+                        "http://schemas/BASSEGASHill/ApplicationCriteria/operations"
+                        //dataType: 'json'
+                        }).done(function(response) { // Show the employees on the screen
+                        
+                        console.log(response);
+                        
+                       data=response;
+                        
+                        $.each(data, function(k, v) {
+                        //for (k in data) {
+                            console.log(v);
+                            if(k.indexOf("ApplicationCriteria")>-1)
+                                {
+                            		var opt = document.createElement("option");
+                            	   opt.value= v.Criteria;
+                            	   opt.innerHTML = v.Criteria; // whatever property it has
+
+                            	   // then append it to the select element
+                            	   criteriaElement.appendChild(opt);
+                            	   
+                                }
+                          });
+                        
+                        }).fail(function(error) { console.log(error); });
+	
+	
+    function init( ){
+    	params['Month(s)']='';
+    	params['Year(s)']='';
+    	details_params['From']='';
+    	details_params['To']='';
+    		
+    	actuate.load("viewer");
+    	actuate.initialize("http://gpihub.bass.com.eg:8700/iportal/", null, "Administrator","", runReport,errorHandler);
+    }
+    function executeParams(){
+    	/*var months=document.getElementById('months').value;
+    	var years=document.getElementById('years').value;
+    	var ldc=document.getElementById('ldc').value;
+    	var gov=document.getElementById('gov').value;
+    	var criteria=document.getElementById('criteria').value;
+    	*/
+    	
+    	var months = $('#months').val();
+    	var years = $('#years').val();
+    	var ldc = $('#ldc').val();
+    	var gov = $('#gov').val();
+    	var criteria = $('#criteria').val();
+    	
+    	console.log("months");
+    	console.log(months);
+    	console.log("years");
+    	console.log(years);
+    	
+    	if (months.length > 0){
+    		var months_str='';
+    		months.forEach(function (item, index) {
+    			months_str=months_str+item+"|";
+    		});
+    		months_str=months_str.substring(0, months_str.lastIndexOf("|"));
+    		params['Month(s)']=months_str;
+    	}
+    	
+    	if (years.length > 0){
+    		var years_str='';
+    		years.forEach(function (item, index) {
+    			years_str=years_str+item+"|";
+    		});
+    		years_str=years_str.substring(0, years_str.lastIndexOf("|"));
+    		params['Year(s)']=years_str;
+    	}
+    	
+    	if(ldc){
+    		params['LDC']="([ldc_code] = \""+ldc+"\")";
+    	}
+    	
+    	if(gov){
+    		params['Governorate']="([governorate] = \""+gov+"\")";
+    	}
+    	
+    	if(criteria){
+    		params['Criteria']="([criteria] = \""+criteria+"\")";
+    	}
+    	
+    	
+    	console.log("params");
+    	console.log(params);
+    	
+   		//alert(params);
+    	runReport( ); 
+    	
+    	return false;
+    }
+    
+    function executeDetailsParams(){
+    	/*var months=document.getElementById('months').value;
+    	var years=document.getElementById('years').value;
+    	var ldc=document.getElementById('ldc').value;
+    	var gov=document.getElementById('gov').value;
+    	var criteria=document.getElementById('criteria').value;
+    	*/
+    	
+    	var from = $('#from').val();
+    	var to = $('#to').val();
+    	var ldc = $('#ldc').val();
+    	var gov = $('#gov').val();
+    	var criteria = $('#criteria').val();
+    	
+    	console.log("months");
+    	console.log(months);
+    	console.log("years");
+    	console.log(years);
+    	
+    	if (from){
+    		details_params['From']=from;
+    	}
+    	
+    	if (to){
+    		details_params['To']=to;
+    	}
+    	
+    	if(ldc){
+    		details_params['LDC']="([ldc_code] = \""+ldc+"\")";
+    	}
+    	
+    	if(gov){
+    		details_params['Governorate']="([governorate] = \""+gov+"\")";
+    	}
+    	
+    	if(criteria){
+    		details_params['Criteria']="([criteria] = \""+criteria+"\")";
+    	}
+    	
+    	console.log("details_params");
+    	console.log(details_params);
+    	
+    	//alert(details_params);
+    	runDetailsReport();
+    	
+    	return false;
+    }
+    
+    function runReport( ) {
+    	
+    	var panel = new actuate.viewer.BrowserPanel( );
+    	var uiConfig = new actuate.viewer.UIConfig( );
+    	uiConfig.setContentPanel( panel );
+    	
+    	//load applications statistical report
+    	var viewer = new actuate.Viewer( "statistical",uiConfig );
+    	viewer.setReportName("/Applications/Time Impact Reports/Report Designs/Applications_Statistical.rptdesign" );
+    	//viewer.setParameters({ "Month(s)":"1|2", "Year(s)":"2021|2020", LDC:"([ldc_code] = \"LDC82\")"});
+    	viewer.setParameters(params);
+    	//viewer.setSize( 900, 600 );
+    	viewer.setWidth(850);
+    	viewer.registerEventHandler(actuate.viewer.EventConstants.ON_EXCEPTION, errorHandler);
+    	viewer.submit( );
+    	
+    	//load applications submitted by company report
+    	viewer = new actuate.Viewer( "company",uiConfig );
+    	viewer.setReportName("/Applications/Time Impact Reports/Report Designs/Applications_Submitted_by_Company.rptdesign" );
+    	//viewer.setParameters({ "Month(s)":"1|2", "Year(s)":"2021|2020", LDC:"([ldc_code] = \"LDC82\")"});
+    	viewer.setParameters(params);
+    	//viewer.setSize( 800, 600 );
+    	viewer.setWidth(850);
+    	viewer.registerEventHandler(actuate.viewer.EventConstants.ON_EXCEPTION, errorHandler);
+    	viewer.submit( );
+    	
+    	//load contract time report
+    	viewer = new actuate.Viewer( "contract",uiConfig );
+    	viewer.setReportName("/Applications/Time Impact Reports/Report Designs/ContractTimeReport.rptdesign" );
+    	//viewer.setParameters({ "Month(s)":"1|2", "Year(s)":"2021|2020", LDC:"([ldc_code] = \"LDC82\")"});
+    	viewer.setParameters(params);
+    	//viewer.setSize( 800, 600 );
+    	viewer.setWidth(850);
+    	viewer.registerEventHandler(actuate.viewer.EventConstants.ON_EXCEPTION, errorHandler);
+    	viewer.submit( );
+    	
+    	//load process time report
+    	viewer = new actuate.Viewer( "process",uiConfig );
+    	viewer.setReportName("/Applications/Time Impact Reports/Report Designs/ProcessTimeReport.rptdesign" );
+    	//viewer.setParameters({ From:"2020-11-01 09:00:00", To:"2021-03-08 09:00:00", LDC:"([ldc_code] = \"LDC289\")"});
+    	viewer.setParameters(details_params);
+    	//viewer.setSize( 800, 600 );
+    	viewer.setWidth(850);
+    	viewer.registerEventHandler(actuate.viewer.EventConstants.ON_EXCEPTION, errorHandler);
+    	viewer.submit( );
+    	
+    	//load complaint time report
+    	viewer = new actuate.Viewer( "complaint",uiConfig );
+    	viewer.setReportName("/Applications/Time Impact Reports/Report Designs/Complaint_Time_Report.rptdesign" );
+    	//viewer.setParameters({ "Month(s)":"1|2", "Year(s)":"2021|2020", LDC:"([ldc_code] = \"LDC82\")"});
+    	viewer.setParameters(params);
+    	//viewer.setSize( 800, 600 );
+    	viewer.setWidth(850);
+    	viewer.registerEventHandler(actuate.viewer.EventConstants.ON_EXCEPTION, errorHandler);
+    	viewer.submit( );
+    	} 
+    
+		function runDetailsReport( ) {
+    	
+	    	var panel = new actuate.viewer.BrowserPanel( );
+	    	var uiConfig = new actuate.viewer.UIConfig( );
+	    	uiConfig.setContentPanel( panel );
+	    	
+	    	//load process time report
+	    	var viewer = new actuate.Viewer( "process",uiConfig );
+	    	viewer.setReportName("/Applications/Time Impact Reports/Report Designs/ProcessTimeReport.rptdesign" );
+	    	//viewer.setParameters({ From:"2020-11-01 09:00:00", To:"2021-03-08 09:00:00", LDC:"([ldc_code] = \"LDC289\")"});
+	    	viewer.setParameters(details_params);
+	    	//viewer.setSize( 800, 600 );
+	    	viewer.setWidth(850);
+	    	viewer.registerEventHandler(actuate.viewer.EventConstants.ON_EXCEPTION, errorHandler);
+	    	viewer.submit( );
+		}
+		
+		function errorHandler(exception){
+			  /*alert("Your application encountered an exception: \n" + 
+			    exception.getMessage());*/
+			    console.log(exception);
+			}
+    </script>
+</body>
+</html>
