@@ -1,0 +1,56 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.cordys.com/casemanagement/1.0" targetNamespace="http://schemas.cordys.com/casemanagement/1.0" attributeFormDefault="unqualified" elementFormDefault="qualified">
+    <element name="followups">
+        <complexType>
+            <sequence minOccurs="0" maxOccurs="unbounded">
+                <element ref="tns:followup"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="activity">
+        <complexType>
+            <sequence minOccurs="0" maxOccurs="unbounded">
+                <any processContents="skip" namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+            <attribute type="xs:string" name="id"/>
+            <attribute type="xs:string" name="type"/>
+            <attribute type="xs:string" name="name"/>
+        </complexType>
+    </element>
+    <element name="followup">
+        <complexType>
+            <sequence>
+                <element ref="tns:activity" minOccurs="0" maxOccurs="1"/>
+            </sequence>
+            <attribute type="xs:string" name="activityid"/>
+            <attribute type="xs:string" name="activityname"/>
+            <attribute type="xs:string" name="type"/>
+            <attribute type="xs:string" name="activitytype" use="optional"/>
+            <attribute type="xs:string" name="stateName" use="optional"/>
+            <attribute type="xs:string" name="stateId" use="optional"/>
+        </complexType>
+    </element>
+    <element name="casevariables">
+        <complexType>
+            <sequence minOccurs="0" maxOccurs="unbounded">
+                <any processContents="skip" namespace="##any" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="businessevents">
+        <complexType>
+            <sequence>
+                <element name="event" maxOccurs="unbounded" minOccurs="0">
+                    <complexType>
+                        <simpleContent>
+                            <extension base="xs:string">
+                                <attribute type="xs:string" name="name"/>
+                                <attribute type="xs:string" name="description" use="optional"/>
+                                <attribute type="xs:string" name="type"/>
+                            </extension>
+                        </simpleContent>
+                    </complexType>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

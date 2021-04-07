@@ -1,0 +1,14 @@
+.ar{
+    text-align: right;
+    direction: rtl;
+}
+
+.grid{
+    margin-top: 5%;
+}
+
+.edit{
+    nav-index: 1;
+    user-select: all;
+    
+}

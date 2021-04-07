@@ -1,0 +1,115 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.css">
+     
+      <link rel="stylesheet" href="style.css">
+      
+      <!--grid-->
+      <link type="text/css" rel="stylesheet" href="jsgrid-1.5.3/jsgrid.min.css" />
+      <link type="text/css" rel="stylesheet" href="jsgrid-1.5.3/jsgrid-theme.min.css" />
+    <title>Hello, world!</title>
+      <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script-->
+      
+     
+      
+      <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+ 
+<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+      
+      
+      <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script-->
+      <script type="text/javascript" src="jsgrid-1.5.3/jsgrid.min.js"></script>
+      
+      <!--AppWorks sdk js-->
+
+	
+
+      
+  </head>
+  <body>
+    <nav class="navbar navbar-light bg-light contents">
+      <a class="navbar-brand">Navbar</a>
+      <!--form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form-->
+        <button type="button" class="btn btn-link">تسجيل دخول</button>
+    </nav>
+    <!--container-fluid-->  
+      <div class="container">
+          <div class="row">
+            <div class="col-sm-12">
+              <span></span>
+              </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="btn-group float-right" role="group" aria-label="Basic example">
+              <button type="button" class="btn btn-link">Export</button>
+              <button type="button" class="btn btn-link">Import</button>
+              <button type="button" class="btn btn-link">Save</button>
+            </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 contents">
+           
+            <div id="jsGrid"></div>
+            
+            <div id="detailsDialog">
+            <form id="detailsForm">
+                <div class="details-form-field">
+                    <label for="name">name:</label>
+                    <input id="name" name="name" type="text" />
+                </div>
+                <!--div class="details-form-field">
+                    <label for="unit">Unit:</label>
+                    <select id="unit" name="unit" >
+                        <option value="">(Select)</option>
+                        <option value="1">Back Storage</option>
+                        <option value="2">Downstairs Storage</option>
+                        <option value="3">Office Storage</option>
+                    </select>
+                </div-->
+                <div class="details-form-field">
+                    <label for="crn">crn:</label>
+                    <input id="crn" name="crn" type="text" />
+                </div>
+                <div class="details-form-field">
+                    <label for="Id">Id:</label>
+                    <input id="Id" name="Id" type="text" />
+                </div>
+                <div class="details-form-field">
+                    <label for="consumption">consumption</label>
+                    <input id="consumption" name="consumption" type="number" />
+                </div>
+                <div class="details-form-field">
+                    <button type="submit" id="save">Save</button>
+                </div>
+            </form>
+        </div>
+            
+        </div>
+      </div>
+    
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      <script src="main6.js"></script>
+      
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>
